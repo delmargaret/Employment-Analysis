@@ -53,7 +53,28 @@ namespace App
         {
             RolesList.RemoveAt(--id);
             return RolesList;
+        }
 
+        public List<Roles> RemoveAllRoles()
+        {
+            RolesList.RemoveRange(0, RolesList.Count());
+            return RolesList;
+        }
+
+        public void ChangeRoleName(int roleid, string newname)
+        {
+            foreach (var role in RolesList)
+            {
+                if (role.RoleId == roleid)
+                {
+                    role.RoleName = newname;
+                }
+            }
+        }
+
+        public List<Roles> GetAllRoles()
+        {
+            return RolesList;
         }
 
         public void ShowRoles()
@@ -63,7 +84,5 @@ namespace App
                 Console.WriteLine("id: " + role.RoleId + " name: " + role.RoleName);
             }
         }
-
-
     }
 }
