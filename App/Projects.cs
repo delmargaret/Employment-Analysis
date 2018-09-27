@@ -76,6 +76,67 @@ namespace App
 
         }
 
+        public List<Projects> RemoveAllProjects()
+        {
+            ProjectList.RemoveRange(0, ProjectList.Count());
+            return ProjectList;
+        }
+
+        public void ChangeProjectName(int projectid, string newname)
+        {
+            foreach (var project in ProjectList)
+            {
+                if (project.ProjectId == projectid)
+                {
+                    project.ProjectName = newname;
+                }
+            }
+        }
+
+        public void ChangeStartDate(int projectid, DateTimeOffset newstartdate)
+        {
+            foreach (var project in ProjectList)
+            {
+                if (project.ProjectId == projectid)
+                {
+                    project.ProjectStartDate = newstartdate;
+                }
+            }
+        }
+
+        public void ChangeEndDate(int projectid, DateTimeOffset newenddate)
+        {
+            foreach (var project in ProjectList)
+            {
+                if (project.ProjectId == projectid)
+                {
+                    project.ProjectEndDate = newenddate;
+                }
+            }
+        }
+
+        public Projects GetProjectByName(string name)
+        {
+            int id = -1;
+            foreach (var project in ProjectList)
+            {
+                if (project.ProjectName == name)
+                {
+                    id = project.ProjectId;
+                }
+            }
+            if (id == -1)
+            {
+                return null;
+            }
+            return ProjectList[--id];
+        }
+
+        public List<Projects> GetAllProjects()
+        {
+            return ProjectList;
+        }
+
         public void ShowProjects()
         {
             foreach (var project in ProjectList)
