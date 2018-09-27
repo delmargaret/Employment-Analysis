@@ -77,6 +77,23 @@ namespace App
             return RolesList;
         }
 
+        public Roles GetRoleByName(string name)
+        {
+            int id = -1;
+            foreach (var role in RolesList)
+            {
+                if (role.RoleName == name)
+                {
+                    id = role.RoleId;
+                }
+            }
+            if (id == -1)
+            {
+                return null;
+            }
+            return RolesList[--id];
+        }
+
         public void ShowRoles()
         {
             foreach(var role in RolesList)

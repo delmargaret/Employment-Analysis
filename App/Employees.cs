@@ -76,6 +76,11 @@ namespace App
             return EmployeeList[--id];
         }
 
+        public List<Employees> GetAllEmployees()
+        {
+            return EmployeeList;
+        }
+
         //public void AddPhoneNumber(int employeeid, string phonenumber)
         //{
         //    foreach (var employee in EmployeeList)
