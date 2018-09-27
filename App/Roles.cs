@@ -21,9 +21,9 @@ namespace App
             this.RoleName = name;
         }
 
-        public Roles CreateRole(string rolename)
+        public Roles CreateRole(int id, string rolename)
         {
-            RoleId++;
+            RoleId = id;
             RoleName = rolename;
             return new Roles(RoleId, RoleName);
         }
@@ -51,7 +51,16 @@ namespace App
 
         public List<Roles> RemoveRoleById(int id)
         {
-            RolesList.RemoveAt(--id);
+            Roles result = new Roles();
+            foreach (var role in RolesList)
+            {
+                if (role.RoleId == id)
+                {
+                    result = role;
+                    break;
+                }
+            }
+            RolesList.Remove(result);
             return RolesList;
         }
 
@@ -79,19 +88,15 @@ namespace App
 
         public Roles GetRoleByName(string name)
         {
-            int id = -1;
+            Roles result = new Roles();
             foreach (var role in RolesList)
             {
                 if (role.RoleName == name)
                 {
-                    id = role.RoleId;
+                    result = role;
                 }
             }
-            if (id == -1)
-            {
-                return null;
-            }
-            return RolesList[--id];
+            return result;
         }
 
         public void ShowRoles()

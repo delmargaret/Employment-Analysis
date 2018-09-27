@@ -26,9 +26,9 @@ namespace App
             this.WorkLoad = workload;
         }
 
-        public ProjectWork CreateProjectWork(Projects project, Employees employee, Roles role, int workload)
+        public ProjectWork CreateProjectWork(int id, Projects project, Employees employee, Roles role, int workload)
         {
-            ProjectWorkId++;
+            ProjectWorkId = id;
             Project = project;
             Employee = employee;
             Role = role;

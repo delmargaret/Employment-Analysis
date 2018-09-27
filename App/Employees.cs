@@ -41,9 +41,9 @@ namespace App
             this.Password = password;
         }
 
-        public Employees RegisterEmployee(string name, string surname, string patronymic, string email, string password)
+        public Employees RegisterEmployee(int id, string name, string surname, string patronymic, string email, string password)
         {
-            EmployeeId++;
+            EmployeeId = id;
             EmployeeName = name;
             EmployeeSurname = surname;
             EmployeePatronymic = patronymic;
@@ -59,21 +59,53 @@ namespace App
             return EmployeeList;
         }
 
-        public Employees GetEmployeeByName(string name)
+        public List<Employees> RemoveEmployeeByName(string name)
         {
-            int id = -1;
-            foreach(var employee in EmployeeList)
+            Employees result = new Employees();
+            foreach (var employee in EmployeeList)
             {
                 if (employee.EmployeeName == name)
                 {
-                    id = employee.EmployeeId;
+                    result = employee;
+                    break;
                 }
             }
-            if (id == -1)
+            EmployeeList.Remove(result);
+            return EmployeeList;
+        }
+
+        public List<Employees> RemoveEmployeeById(int id)
+        {
+            Employees result = new Employees();
+            foreach (var employee in EmployeeList)
             {
-                return null;
+                if (employee.EmployeeId == id)
+                {
+                    result = employee;
+                    break;
+                }
             }
-            return EmployeeList[--id];
+            EmployeeList.Remove(result);
+            return EmployeeList;
+        }
+
+        public List<Employees> RemoveAllEmployees()
+        {
+            EmployeeList.RemoveRange(0, EmployeeList.Count());
+            return EmployeeList;
+        }
+
+        public Employees GetEmployeeByName(string name)
+        {
+            Employees result = new Employees();
+            foreach (var employee in EmployeeList)
+            {
+                if (employee.EmployeeName == name)
+                {
+                    result = employee;
+                }
+            }
+            return result;
         }
 
         public List<Employees> GetAllEmployees()

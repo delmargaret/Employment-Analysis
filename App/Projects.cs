@@ -24,9 +24,9 @@ namespace App
             this.ProjectEndDate = enddate;
         }
 
-        public Projects CreateProject(string projectname, DateTimeOffset startdate, DateTimeOffset enddate)
+        public Projects CreateProject(int id, string projectname, DateTimeOffset startdate, DateTimeOffset enddate)
         {
-            ProjectId++; //------------?
+            ProjectId = id; //------------?
             ProjectName = projectname;
             ProjectStartDate = startdate;
             if (enddate < DateTimeOffset.Now)
@@ -47,7 +47,6 @@ namespace App
         {
             if (project == null) //------------?
             {
-                ProjectId--;
                 return ProjectList;
             }
             ProjectList.Add(project);
@@ -71,9 +70,17 @@ namespace App
 
         public List<Projects> RemoveProjectById(int id)
         {
-            ProjectList.RemoveAt(--id);
+            Projects result = new Projects();
+            foreach (var project in ProjectList)
+            {
+                if (project.ProjectId == id)
+                {
+                    result = project;
+                    break;
+                }
+            }
+            ProjectList.Remove(result);
             return ProjectList;
-
         }
 
         public List<Projects> RemoveAllProjects()
@@ -117,19 +124,15 @@ namespace App
 
         public Projects GetProjectByName(string name)
         {
-            int id = -1;
+            Projects result = new Projects();
             foreach (var project in ProjectList)
             {
                 if (project.ProjectName == name)
                 {
-                    id = project.ProjectId;
+                    result = project;
                 }
             }
-            if (id == -1)
-            {
-                return null;
-            }
-            return ProjectList[--id];
+            return result;
         }
 
         public List<Projects> GetAllProjects()
