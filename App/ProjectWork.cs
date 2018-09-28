@@ -42,8 +42,50 @@ namespace App
             return ProjectWorkList;
         }
 
-        //+change methods
         //+remove methods
+        public void ChangeProject(int workid, Projects project)
+        {
+            foreach (var work in ProjectWorkList)
+            {
+                if (work.ProjectWorkId == workid)
+                {
+                    work.Project = project;
+                }
+            }
+        }
+
+        public void ChangeEmployee(int workid, Employees employee)
+        {
+            foreach (var work in ProjectWorkList)
+            {
+                if (work.ProjectWorkId == workid)
+                {
+                    work.Employee = employee;
+                }
+            }
+        }
+
+        public void ChangeRole(int workid, Roles role)
+        {
+            foreach (var work in ProjectWorkList)
+            {
+                if (work.ProjectWorkId == workid)
+                {
+                    work.Role = role;
+                }
+            }
+        }
+
+        public void ChangeWorkLoad(int workid, int workload)
+        {
+            foreach (var work in ProjectWorkList)
+            {
+                if (work.ProjectWorkId == workid)
+                {
+                    work.WorkLoad = workload;
+                }
+            }
+        }
 
         public List<ProjectWork> GetProjectWork()
         {
