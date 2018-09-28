@@ -41,7 +41,7 @@ namespace App
             this.Password = password;
         }
 
-        public Employees RegisterEmployee(int id, string name, string surname, string patronymic, string email, string password)
+        public Employees RegisterEmployee(int id, string name, string surname, string patronymic, string email, string password, string phonenumber="")
         {
             EmployeeId = id;
             EmployeeName = name;
@@ -49,7 +49,7 @@ namespace App
             EmployeePatronymic = patronymic;
             Email = email;
             Password = password;
-            PhoneNumber = "";
+            PhoneNumber = phonenumber;
             return new Employees(EmployeeId, EmployeeName, EmployeeSurname, EmployeePatronymic, Email, Password, PhoneNumber);
         }
 
@@ -113,16 +113,38 @@ namespace App
             return EmployeeList;
         }
 
-        //public void AddPhoneNumber(int employeeid, string phonenumber)
-        //{
-        //    foreach (var employee in EmployeeList)
-        //    {
-        //        if (employee.EmployeeId == employeeid)
-        //        {
-        //            employee.PhoneNumber = phonenumber;
-        //        }
-        //    }
-        //}
+        public void AddPhoneNumber(int employeeid, string phonenumber)
+        {
+            foreach (var employee in EmployeeList)
+            {
+                if (employee.EmployeeId == employeeid)
+                {
+                    employee.PhoneNumber = phonenumber;
+                }
+            }
+        }
+
+        public void ChangePhoneNumber(int employeeid, string newphonenumber)
+        {
+            foreach (var employee in EmployeeList)
+            {
+                if (employee.EmployeeId == employeeid)
+                {
+                    employee.PhoneNumber = newphonenumber;
+                }
+            }
+        }
+
+        public void RemovePhoneNumberByEmployeeName(string name)
+        {
+            foreach (var employee in EmployeeList)
+            {
+                if (employee.EmployeeName == name)
+                {
+                    employee.PhoneNumber = "";
+                }
+            }
+        }
 
         public void ChangeEmployeeName(int employeeid, string newname)
         {
@@ -183,7 +205,7 @@ namespace App
         {
             foreach(var employee in EmployeeList)
             {
-                if (PhoneNumber == "")
+                if (employee.PhoneNumber == "")
                 {
                     Console.WriteLine("id: " + employee.EmployeeId + " name: " + employee.EmployeeName
                     + " e-mail: " + employee.Email + " password: " + employee.Password);
