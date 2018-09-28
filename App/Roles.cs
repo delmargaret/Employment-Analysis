@@ -36,31 +36,13 @@ namespace App
 
         public List<Roles> RemoveRoleByName(string name)
         {
-            Roles result = new Roles();
-            foreach(var role in RolesList)
-            {
-                if (role.RoleName == name)
-                {
-                    result = role;
-                    break;
-                }
-            }
-            RolesList.Remove(result);
+            RolesList.RemoveAll(item => item.RoleName == name);
             return RolesList;
         }
 
         public List<Roles> RemoveRoleById(int id)
         {
-            Roles result = new Roles();
-            foreach (var role in RolesList)
-            {
-                if (role.RoleId == id)
-                {
-                    result = role;
-                    break;
-                }
-            }
-            RolesList.Remove(result);
+            RolesList.RemoveAll(item => item.RoleId == id);
             return RolesList;
         }
 

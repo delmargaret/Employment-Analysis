@@ -59,33 +59,15 @@ namespace App
             return EmployeeList;
         }
 
-        public List<Employees> RemoveEmployeeByName(string name)
+        public List<Employees> RemoveEmployeeByName(string name, string surname)
         {
-            Employees result = new Employees();
-            foreach (var employee in EmployeeList)
-            {
-                if (employee.EmployeeName == name)
-                {
-                    result = employee;
-                    break;
-                }
-            }
-            EmployeeList.Remove(result);
+            EmployeeList.RemoveAll(item => item.EmployeeName == name && item.EmployeeSurname == surname);
             return EmployeeList;
         }
 
         public List<Employees> RemoveEmployeeById(int id)
         {
-            Employees result = new Employees();
-            foreach (var employee in EmployeeList)
-            {
-                if (employee.EmployeeId == id)
-                {
-                    result = employee;
-                    break;
-                }
-            }
-            EmployeeList.Remove(result);
+            EmployeeList.RemoveAll(item => item.EmployeeId == id);
             return EmployeeList;
         }
 
@@ -135,11 +117,22 @@ namespace App
             }
         }
 
-        public void RemovePhoneNumberByEmployeeName(string name)
+        public void RemovePhoneNumberByEmployeeName(string name, string surname)
         {
             foreach (var employee in EmployeeList)
             {
-                if (employee.EmployeeName == name)
+                if (employee.EmployeeName == name && employee.EmployeeSurname == surname)
+                {
+                    employee.PhoneNumber = "";
+                }
+            }
+        }
+
+        public void RemovePhoneNumberByEmployeeId(int id)
+        {
+            foreach (var employee in EmployeeList)
+            {
+                if (employee.EmployeeId == id)
                 {
                     employee.PhoneNumber = "";
                 }

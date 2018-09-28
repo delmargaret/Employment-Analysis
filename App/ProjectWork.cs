@@ -87,6 +87,25 @@ namespace App
             }
         }
 
+        public List<ProjectWork> RemoveWorkById(int workid)
+        {
+            ProjectWorkList.RemoveAll(item => item.ProjectWorkId == workid);
+            return ProjectWorkList;
+        }
+
+        public List<ProjectWork> RemoveWorkByProjectName(string projectname)
+        {
+            ProjectWorkList.RemoveAll(item => item.Project.ProjectName == projectname);
+            return ProjectWorkList;
+        }
+
+        public List<ProjectWork> RemoveEmployeeFromProject(string projectname, string name, string surname)
+        {
+            ProjectWorkList.RemoveAll(item => item.Project.ProjectName == projectname
+            && item.Employee.EmployeeName == name && item.Employee.EmployeeSurname == surname);
+            return ProjectWorkList;
+        }
+
         public List<ProjectWork> GetProjectWork()
         {
             return ProjectWorkList;

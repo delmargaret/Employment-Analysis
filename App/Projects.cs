@@ -55,31 +55,13 @@ namespace App
 
         public List<Projects> RemoveProjectByName(string name)
         {
-            Projects result = new Projects();
-            foreach (var project in ProjectList)
-            {
-                if (project.ProjectName == name)
-                {
-                    result = project;
-                    break;
-                }
-            }
-            ProjectList.Remove(result);
+            ProjectList.RemoveAll(item => item.ProjectName == name);
             return ProjectList;
         }
 
         public List<Projects> RemoveProjectById(int id)
         {
-            Projects result = new Projects();
-            foreach (var project in ProjectList)
-            {
-                if (project.ProjectId == id)
-                {
-                    result = project;
-                    break;
-                }
-            }
-            ProjectList.Remove(result);
+            ProjectList.RemoveAll(item => item.ProjectId == id);
             return ProjectList;
         }
 
