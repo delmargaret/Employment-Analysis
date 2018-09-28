@@ -47,7 +47,7 @@ namespace App
             employees.ShowEmployees();
             employees.AddPhoneNumber(1, "+1254893");
             employees.ShowEmployees();
-            employees.RemovePhoneNumberByEmployeeName("Olya");
+            employees.RemovePhoneNumberByEmployeeName("Olya", "Delikatnaya");
             employees.ShowEmployees();
             #endregion
 
