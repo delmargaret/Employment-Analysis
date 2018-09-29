@@ -12,26 +12,26 @@ namespace App
         public string ProjectName { get; set; }
         public DateTimeOffset ProjectStartDate { get; set; }
         public DateTimeOffset ProjectEndDate { get; set; }
-        public List<Projects> ProjectList = new List<Projects>();
+        public ProjectStatus Status { get; set; }
+        public static List<Projects> ProjectList = new List<Projects>();
 
         public Projects() { }
 
-        public Projects(int id, string name, DateTimeOffset startdate, DateTimeOffset enddate)
+        public Projects(int id, string name, DateTimeOffset startdate, DateTimeOffset enddate, ProjectStatus projectstatus)
         {
             this.ProjectId = id;
             this.ProjectName = name;
             this.ProjectStartDate = startdate;
             this.ProjectEndDate = enddate;
+            this.Status = projectstatus;
         }
 
-        public Projects CreateProject(int id, string projectname, DateTimeOffset startdate, DateTimeOffset enddate)
+        public Projects CreateProject(int id, string projectname, DateTimeOffset startdate, DateTimeOffset enddate, int statusid)
         {
-            ProjectId = id; //------------?
-            ProjectName = projectname;
-            ProjectStartDate = startdate;
+            ProjectStatus.CreateProjectStatus();
             if (enddate < DateTimeOffset.Now)
             {
-                Console.WriteLine("incorrect end date"); //------------?
+                Console.WriteLine("incorrect end date");
                 return null;
             }
             if (enddate < startdate)
@@ -39,18 +39,14 @@ namespace App
                 Console.WriteLine("incorrect end date");
                 return null;
             }
-            ProjectEndDate = enddate;
-            return new Projects(ProjectId, ProjectName, ProjectStartDate, ProjectEndDate);
+            Projects project = new Projects(id, projectname, startdate, enddate, ProjectStatus.GetProjectStatusById(statusid));
+            ProjectList.Add(project);
+            return project;
         }
 
-        public List<Projects> AddProject(Projects project)
+        public void ChangeProjectStatus(int projectid, int statusid)
         {
-            if (project == null) //------------?
-            {
-                return ProjectList;
-            }
-            ProjectList.Add(project);
-            return ProjectList;
+            ProjectList.Find(item => item.ProjectId == projectid).Status = ProjectStatus.GetProjectStatusById(statusid);
         }
 
         public List<Projects> RemoveProjectByName(string name)
@@ -73,48 +69,27 @@ namespace App
 
         public void ChangeProjectName(int projectid, string newname)
         {
-            foreach (var project in ProjectList)
-            {
-                if (project.ProjectId == projectid)
-                {
-                    project.ProjectName = newname;
-                }
-            }
+            ProjectList.Find(item => item.ProjectId == projectid).ProjectName = newname;
         }
 
         public void ChangeStartDate(int projectid, DateTimeOffset newstartdate)
         {
-            foreach (var project in ProjectList)
-            {
-                if (project.ProjectId == projectid)
-                {
-                    project.ProjectStartDate = newstartdate;
-                }
-            }
+            ProjectList.Find(item => item.ProjectId == projectid).ProjectStartDate = newstartdate;
         }
 
         public void ChangeEndDate(int projectid, DateTimeOffset newenddate)
         {
-            foreach (var project in ProjectList)
-            {
-                if (project.ProjectId == projectid)
-                {
-                    project.ProjectEndDate = newenddate;
-                }
-            }
+            ProjectList.Find(item => item.ProjectId == projectid).ProjectEndDate = newenddate;
         }
 
         public Projects GetProjectByName(string name)
         {
-            Projects result = new Projects();
-            foreach (var project in ProjectList)
-            {
-                if (project.ProjectName == name)
-                {
-                    result = project;
-                }
-            }
-            return result;
+            return ProjectList.Find(item => item.ProjectName == name);
+        }
+
+        public static Projects GetProjectById(int id)
+        {
+            return ProjectList.Find(item => item.ProjectId == id);
         }
 
         public List<Projects> GetAllProjects()
@@ -127,7 +102,8 @@ namespace App
             foreach (var project in ProjectList)
             {
                 Console.WriteLine("id: " + project.ProjectId + " name: " + project.ProjectName
-                + "\nstart date: " + project.ProjectStartDate.ToString() + " end date: " + project.ProjectEndDate.ToString());
+                + "\nstart date: " + project.ProjectStartDate.ToString() + " end date: " + project.ProjectEndDate.ToString()
+                + " status: " + project.Status.ProjectStatusName);
             }
         }
     }

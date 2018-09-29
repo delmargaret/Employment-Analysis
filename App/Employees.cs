@@ -13,50 +13,31 @@ namespace App
         public string EmployeeSurname { get; set; }
         public string EmployeePatronymic { get; set; }
         public string Email { get; set; } //регулярные выражения?
+        public string GitLink { get; set; } 
         public string PhoneNumber { get; set; }
-        public string Password { get; set; }
-        public List<Employees> EmployeeList = new List<Employees>();
+        public Roles Role { get; set; }
+        public static List<Employees> EmployeeList = new List<Employees>();
 
         public Employees() { }
 
-        public Employees(int id, string name, string surname, string patronymic, string email, string password)
+        public Employees(int id, string name, string surname, string patronymic, string email, Roles role, string gitlink, string phonenumber)
         {
             this.EmployeeId = id;
             this.EmployeeName = name;
             this.EmployeeSurname = surname;
             this.EmployeePatronymic = patronymic;
             this.Email = email;
-            this.Password = password;
-            this.PhoneNumber = "";
-        }
-
-        public Employees(int id, string name, string surname, string patronymic, string email, string password, string phonenumber)
-        {
-            this.EmployeeId = id;
-            this.EmployeeName = name;
-            this.EmployeeSurname = surname;
-            this.EmployeePatronymic = patronymic;
-            this.Email = email;
+            this.GitLink = gitlink;
             this.PhoneNumber = phonenumber;
-            this.Password = password;
+            this.Role = role;
         }
 
-        public Employees RegisterEmployee(int id, string name, string surname, string patronymic, string email, string password, string phonenumber="")
+        public Employees RegisterEmployee(int id, string name, string surname, string patronymic, string email, int roleid, string gitlink="", string phonenumber="")
         {
-            EmployeeId = id;
-            EmployeeName = name;
-            EmployeeSurname = surname;
-            EmployeePatronymic = patronymic;
-            Email = email;
-            Password = password;
-            PhoneNumber = phonenumber;
-            return new Employees(EmployeeId, EmployeeName, EmployeeSurname, EmployeePatronymic, Email, Password, PhoneNumber);
-        }
-
-        public List<Employees> AddEmployee(Employees employee)
-        {
+            Roles.CreateRoles();
+            Employees employee = new Employees(id, name, surname, patronymic, email, Roles.GetRoleById(roleid), gitlink, phonenumber);
             EmployeeList.Add(employee);
-            return EmployeeList;
+            return employee;
         }
 
         public List<Employees> RemoveEmployeeByName(string name, string surname)
@@ -79,15 +60,12 @@ namespace App
 
         public Employees GetEmployeeByName(string name)
         {
-            Employees result = new Employees();
-            foreach (var employee in EmployeeList)
-            {
-                if (employee.EmployeeName == name)
-                {
-                    result = employee;
-                }
-            }
-            return result;
+            return EmployeeList.Find(item => item.EmployeeName == name);
+        }
+
+        public static Employees GetEmployeeById(int employeeid)
+        {
+            return EmployeeList.Find(item => item.EmployeeId == employeeid);
         }
 
         public List<Employees> GetAllEmployees()
@@ -97,116 +75,92 @@ namespace App
 
         public void AddPhoneNumber(int employeeid, string phonenumber)
         {
-            foreach (var employee in EmployeeList)
-            {
-                if (employee.EmployeeId == employeeid)
-                {
-                    employee.PhoneNumber = phonenumber;
-                }
-            }
+            EmployeeList.Find(item => item.EmployeeId == employeeid).PhoneNumber = phonenumber;
         }
 
         public void ChangePhoneNumber(int employeeid, string newphonenumber)
         {
-            foreach (var employee in EmployeeList)
-            {
-                if (employee.EmployeeId == employeeid)
-                {
-                    employee.PhoneNumber = newphonenumber;
-                }
-            }
+            EmployeeList.Find(item => item.EmployeeId == employeeid).PhoneNumber = newphonenumber;
         }
 
         public void RemovePhoneNumberByEmployeeName(string name, string surname)
         {
-            foreach (var employee in EmployeeList)
-            {
-                if (employee.EmployeeName == name && employee.EmployeeSurname == surname)
-                {
-                    employee.PhoneNumber = "";
-                }
-            }
+            EmployeeList.Find(item => item.EmployeeName == name && item.EmployeeSurname == surname).PhoneNumber = "";
         }
 
         public void RemovePhoneNumberByEmployeeId(int id)
         {
-            foreach (var employee in EmployeeList)
-            {
-                if (employee.EmployeeId == id)
-                {
-                    employee.PhoneNumber = "";
-                }
-            }
+            EmployeeList.Find(item => item.EmployeeId == id).PhoneNumber = "";
+        }
+
+        public void AddGitLink(int employeeid, string gitlink)
+        {
+            EmployeeList.Find(item => item.EmployeeId == employeeid).GitLink = gitlink;
+        }
+
+        public void ChangeGitLink(int employeeid, string newgitlink)
+        {
+            EmployeeList.Find(item => item.EmployeeId == employeeid).GitLink = newgitlink;
+        }
+
+        public void RemoveGitLinkByEmployeeName(string name, string surname)
+        {
+            EmployeeList.Find(item => item.EmployeeName == name && item.EmployeeSurname == surname).GitLink = "";
+        }
+
+        public void RemoveGitLinkByEmployeeId(int id)
+        {
+            EmployeeList.Find(item => item.EmployeeId == id).GitLink = "";
+        }
+
+        public void ChangeEmployeesRole(int employeeid, int roleid)
+        {
+            EmployeeList.Find(item => item.EmployeeId == employeeid).Role = Roles.GetRoleById(roleid);
         }
 
         public void ChangeEmployeeName(int employeeid, string newname)
         {
-            foreach (var employee in EmployeeList)
-            {
-                if (employee.EmployeeId == employeeid)
-                {
-                    employee.EmployeeName = newname;
-                }
-            }
+            EmployeeList.Find(item => item.EmployeeId == employeeid).EmployeeName = newname;
         }
 
         public void ChangeEmployeeSurname(int employeeid, string newsurname)
         {
-            foreach (var employee in EmployeeList)
-            {
-                if (employee.EmployeeId == employeeid)
-                {
-                    employee.EmployeeSurname = newsurname;
-                }
-            }
+            EmployeeList.Find(item => item.EmployeeId == employeeid).EmployeeSurname = newsurname;
         }
 
         public void ChangeEmployeePatronymic(int employeeid, string newpatronymic)
         {
-            foreach (var employee in EmployeeList)
-            {
-                if (employee.EmployeeId == employeeid)
-                {
-                    employee.EmployeePatronymic = newpatronymic;
-                }
-            }
+            EmployeeList.Find(item => item.EmployeeId == employeeid).EmployeePatronymic = newpatronymic;
         }
 
         public void ChangeEmail(int employeeid, string newemail)
         {
-            foreach (var employee in EmployeeList)
-            {
-                if (employee.EmployeeId == employeeid)
-                {
-                    employee.Email = newemail;
-                }
-            }
-        }
-
-        public void ChangePassword(int employeeid, string newpassword)
-        {
-            foreach (var employee in EmployeeList)
-            {
-                if (employee.EmployeeId == employeeid)
-                {
-                    employee.Password = newpassword;
-                }
-            }
+            EmployeeList.Find(item => item.EmployeeId == employeeid).Email = newemail;
         }
 
         public void ShowEmployees()
         {
             foreach(var employee in EmployeeList)
             {
-                if (employee.PhoneNumber == "")
+                if (employee.PhoneNumber == "" && employee.GitLink=="")
                 {
                     Console.WriteLine("id: " + employee.EmployeeId + " name: " + employee.EmployeeName
-                    + " e-mail: " + employee.Email + " password: " + employee.Password);
+                    + " e-mail: " + employee.Email + " role: " + employee.Role.RoleName);
+                }
+                else if (employee.GitLink == "")
+                {
+                    Console.WriteLine("id: " + employee.EmployeeId + " name: " + employee.EmployeeName
+                    + " e-mail: " + employee.Email + " role: " + employee.Role.RoleName + " phone number: " + employee.PhoneNumber);
+                }
+                else if (employee.PhoneNumber == "")
+                {
+                    Console.WriteLine("id: " + employee.EmployeeId + " name: " + employee.EmployeeName + " e-mail: " 
+                    + employee.Email + " role: " + employee.Role.RoleName + " git link: " + employee.GitLink);
                 }
                 else
                 {
-                    Console.WriteLine("id: " + employee.EmployeeId + " name: " + employee.EmployeeName
-                    + " e-mail: " + employee.Email + " password: " + employee.Password + " phone number: " + employee.PhoneNumber);
+                    Console.WriteLine("id: " + employee.EmployeeId + " name: " + employee.EmployeeName + " e-mail: "
+                    + employee.Email + " role: " + employee.Role.RoleName + " phone number: " + employee.PhoneNumber + " git link: " + employee.PhoneNumber);
                 }
             }
         }

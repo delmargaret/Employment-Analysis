@@ -3,90 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections;
 
 namespace App
 {
     class Roles
     {
-        public int RoleId { get; set; }
-        public string RoleName { get; set; }
-        public List<Roles> RolesList = new List<Roles>();
+        public int RoleId { get; protected set; }
+        public string RoleName { get; protected set; }
+        public static List<Roles> RolesList = new List<Roles>();
 
         public Roles() { }
 
-        public Roles(int id, string name)
-        {
-            this.RoleId = id;
-            this.RoleName = name;
-        }
-
-        public Roles CreateRole(int id, string rolename)
+        Roles(int id, string rolename)
         {
             RoleId = id;
             RoleName = rolename;
-            return new Roles(RoleId, RoleName);
         }
 
-        public List<Roles> AddRole(Roles role)
+        public static List<Roles> CreateRoles()
         {
-            RolesList.Add(role);
+            Roles role1 = new Roles(1, "Resource manager");
+            Roles role2 = new Roles(2, "Employee");
+            Roles role3 = new Roles(3, "Project manager");
+            RolesList.Add(role1);
+            RolesList.Add(role2);
+            RolesList.Add(role3);
             return RolesList;
         }
 
-        public List<Roles> RemoveRoleByName(string name)
+        public static Roles GetRoleById(int id)
         {
-            RolesList.RemoveAll(item => item.RoleName == name);
-            return RolesList;
-        }
-
-        public List<Roles> RemoveRoleById(int id)
-        {
-            RolesList.RemoveAll(item => item.RoleId == id);
-            return RolesList;
-        }
-
-        public List<Roles> RemoveAllRoles()
-        {
-            RolesList.RemoveRange(0, RolesList.Count());
-            return RolesList;
-        }
-
-        public void ChangeRoleName(int roleid, string newname)
-        {
-            foreach (var role in RolesList)
-            {
-                if (role.RoleId == roleid)
-                {
-                    role.RoleName = newname;
-                }
-            }
-        }
-
-        public List<Roles> GetAllRoles()
-        {
-            return RolesList;
-        }
-
-        public Roles GetRoleByName(string name)
-        {
-            Roles result = new Roles();
-            foreach (var role in RolesList)
-            {
-                if (role.RoleName == name)
-                {
-                    result = role;
-                }
-            }
-            return result;
-        }
-
-        public void ShowRoles()
-        {
-            foreach(var role in RolesList)
-            {
-                Console.WriteLine("id: " + role.RoleId + " name: " + role.RoleName);
-            }
+            return RolesList.Find(item => item.RoleId == id);
         }
     }
 }
